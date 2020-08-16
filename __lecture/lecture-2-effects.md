@@ -57,7 +57,7 @@ render(<App />);
 
 # The `useEffect` hook
 
----
+## It accepts one function and it shoots it once everything is rendenred. It does an first render, checks the other function and then it wil launch that one
 
 ```js
 // `useEffect` takes a function.
@@ -150,9 +150,9 @@ Update the following snippets to make use of `useEffect`
 ```js
 const App = () => {
   const [count, setCount] = React.useState(0);
-
-  document.title = `You have clicked ${count} times`;
-
+  React.useEffect(() => {
+    document.title = `You have clicked ${count} times`;
+  }, [count]);
   return <button onClick={() => setCount(count + 1)}>Increment</button>;
 };
 ```
@@ -162,10 +162,12 @@ const App = () => {
 ```js
 const App = ({ color }) => {
   const [value, setValue] = React.useState(false);
-
-  window.localStorage.setItem("value", value);
-  window.localStorage.setItem("color", color);
-
+  React.useEffect(() => {
+    window.localStorage.setItem("value", value);
+  }, [value]);
+  React.useEffect(() => {
+    window.localStorage.setItem("color", color);
+  }, [color]);
   return (
     <div>
       Value: {value}
@@ -179,11 +181,13 @@ const App = ({ color }) => {
 
 ```js
 const Modal = ({ handleClose }) => {
-  window.addEventListener("keydown", (ev) => {
-    if (ev.code === "Escape") {
-      handleClose();
-    }
-  });
+  React.useEffect(() => {
+    window.addEventListener("keydown", (ev) => {
+      if (ev.code === "Escape") {
+        handleClose();
+      }
+    });
+  }, []);
 
   return <div>Modal stuff</div>;
 };
